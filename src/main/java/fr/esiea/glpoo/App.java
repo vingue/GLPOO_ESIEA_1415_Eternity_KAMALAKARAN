@@ -9,17 +9,16 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-public class App extends Colorinfrench
+public class App
 {
 	Color couleur=null;
 	
-	Couleur.couleur;
 	
 	public App() {
         JFrame frame=new JFrame("Eternity");
         frame.setMinimumSize(new Dimension(640,480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(couleur);
+        frame.getContentPane().setBackground(couleur);
         frame.pack();
         frame.setVisible(true);
         
