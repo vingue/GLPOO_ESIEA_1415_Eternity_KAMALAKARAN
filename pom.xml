@@ -11,15 +11,173 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+		<!-- Construction du projet -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.6</java.version>
+		<maven-compiler-plugin.version>2.3.1</maven-compiler-plugin.version>
+
+		<!-- Lib de test -->
+		<junit.version>4.8.2</junit.version>
+
+		<!-- DB : vous pouvez utiliser ces versions pour aller plus loin -->
+		<mysql-connector-java.version>5.1.18</mysql-connector-java.version>
+		<hsqldb.version>2.2.8</hsqldb.version>
+
+		<!-- Lib de log -->
+		<log4j.version>1.2.13</log4j.version>
+
+		<!-- Lib CSV -->
+		<opencsv.version>2.3</opencsv.version>
+		<csvengine.version>1.3.5</csvengine.version>
+		
+        <!-- JFreeChart -->
+        <jfreechart.version>1.0.14</jfreechart.version>
+
+		<!-- Libs pour les rapports -->
+		<maven-site-plugin.version>3.0-beta-3</maven-site-plugin.version>
+		<maven-javadoc-plugin.version>2.8</maven-javadoc-plugin.version>
+		<maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
+		<taglist-maven-plugin.version>2.4</taglist-maven-plugin.version>
+		<maven-surefire-plugin.version>2.9</maven-surefire-plugin.version>
+		<maven-surefire-report-plugin>2.9</maven-surefire-report-plugin>
+
+
+	</properties>
+
+	<dependencies>
+		<!-- Junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
+		<!-- Lib CSV -->
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>${opencsv.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>fr.ybonnel</groupId>
+			<artifactId>csvengine</artifactId>
+			<version>${csvengine.version}</version>
+		</dependency>
+		
+		<!-- JFreeChart -->
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>${jfreechart.version}</version>
+        </dependency>
+
+		<!-- Ci dessous des lib dont vous aurez besoin pour aller plus loin. -->
+
+	</dependencies>
+
+
+	<build>
+		<finalName>TP chien</finalName>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+
+			<!-- Doc generee par Maven -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>${maven-site-plugin.version}</version>
+			</plugin>
+
+			<!-- Surefire (rapport de test) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<reporting>
+		<plugins>
+			<!-- Javadoc -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+			</plugin>
+
+			<!-- JXR : pour lier les sources -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${maven-jxr-plugin.version}</version>
+			</plugin>
+
+			<!-- Taglist : pour voir les TODO restant dans le code -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+				<version>${taglist-maven-plugin.version}</version>
+				<configuration>
+					<tagListOptions>
+						<tagClasses>
+							<tagClass>
+								<displayName>Todo Work</displayName>
+								<tags>
+									<tag>
+										<matchString>TODO</matchString>
+										<matchType>ignoreCase</matchType>
+									</tag>
+									<tag>
+										<matchString>FIXME</matchString>
+										<matchType>exact</matchType>
+									</tag>
+								</tags>
+							</tagClass>
+							<tagClass>
+								<displayName>Regles</displayName>
+								<tags>
+									<tag>
+										<matchString>REGLE</matchString>
+										<matchType>ignoreCase</matchType>
+									</tag>
+								</tags>
+							</tagClass>
+						</tagClasses>
+					</tagListOptions>
+				</configuration>
+			</plugin>
+
+			<!-- Surefire (tests JUnit) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>${maven-surefire-report-plugin}</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+
+	<repositories>
+	</repositories>
 </project>
