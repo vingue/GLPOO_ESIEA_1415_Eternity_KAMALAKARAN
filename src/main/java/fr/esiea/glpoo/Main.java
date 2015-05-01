@@ -15,7 +15,9 @@ public class Main {
 	Color couleur=Color.cyan;
 	
     public Main() {
-        JFrame frame=new JFrame("Coucou");
+        JFrame frame=new JFrame("Eternity II");
+
+
         frame.setMinimumSize(new Dimension(640,480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(couleur);
@@ -34,6 +36,7 @@ public class Main {
         frame.add(aidePanel);
         
         frame.pack();
+       
         frame.setVisible(true);
     }
     
