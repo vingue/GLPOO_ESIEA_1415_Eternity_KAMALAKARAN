@@ -15,7 +15,7 @@ public class Main {
 	Color couleur=Color.cyan;
 	
     public Main() {
-        JFrame frame=new JFrame("Eternity II");
+        JFrame frame=new JFrame("On est les + mieux!");
 
 
         frame.setMinimumSize(new Dimension(640,480));
