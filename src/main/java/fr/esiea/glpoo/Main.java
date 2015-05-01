@@ -7,10 +7,11 @@ import javax.swing.JFrame;
 public class Main {
     
     public Main() {
-        JFrame frame=new JFrame("Eternity");
+        JFrame frame=new JFrame("Coucou");
         frame.setMinimumSize(new Dimension(640,480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+       
         frame.setVisible(true);
     }
     
