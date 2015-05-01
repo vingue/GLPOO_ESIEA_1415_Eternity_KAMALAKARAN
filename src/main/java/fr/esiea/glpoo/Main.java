@@ -27,9 +27,11 @@ public class Main {
         JButton resetButton = new JButton("Restart");
         JButton undoButton = new JButton("Undo");
         JButton rotateButton = new JButton("Rotate");
+        JButton rotateButtonn = new JButton("VincentOnAReussi");
         buttonPanel.add(resetButton);
         buttonPanel.add(undoButton);
         buttonPanel.add(rotateButton);
+        buttonPanel.add(rotateButtonn);
         aidePanel.setLayout(new BorderLayout());
         aidePanel.setBorder(BorderFactory.createTitledBorder("Aide"));
         aidePanel.add(buttonPanel, BorderLayout.EAST);
