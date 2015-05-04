@@ -15,7 +15,7 @@ public class Main {
 	Color couleur=Color.cyan;
 	
     public Main() {
-        JFrame frame=new JFrame("On est les + mieux!");
+        JFrame frame=new JFrame("On est 12!");
 
 
         frame.setMinimumSize(new Dimension(640,480));
