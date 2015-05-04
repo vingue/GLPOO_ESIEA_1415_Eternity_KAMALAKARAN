@@ -18,7 +18,13 @@ import javax.swing.JPanel;
 
 public class Main implements ActionListener{
     
-	Color couleur=Color.cyan;
+	Pieces piece = new Pieces();
+	 
+	String couleur=piece.run();
+	 	
+	Colorinfrench color =new Colorinfrench();
+	
+	Color test=color.parse(couleur);
 	private int val=0;
 	JLabel text= new JLabel();
 
@@ -27,9 +33,13 @@ public class Main implements ActionListener{
         JFrame frame=new JFrame("Eternity II");
 
 
+		  
         frame.setMinimumSize(new Dimension(640,480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setBackground(couleur);
+
+        frame.getContentPane().setBackground(test);
+
+     
         
         frame.setLayout(new BorderLayout());
         JPanel buttonPanel=new JPanel();
@@ -82,6 +92,10 @@ public class Main implements ActionListener{
         frame.pack();
        
         frame.setVisible(true);
+        
+       
+
+//System.out.println(couleur);
     }
     
     public static void main(String[] args) {
@@ -113,5 +127,4 @@ public class Main implements ActionListener{
 				break;
 		}
 	}
-    
 }
