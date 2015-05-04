@@ -1,6 +1,8 @@
 package fr.esiea.glpoo;
 
 import java.awt.BorderLayout;
+
+import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -19,6 +21,8 @@ public class Main {
 
 
         frame.setMinimumSize(new Dimension(640,480));
+        frame.setExtendedState(frame.MAXIMIZED_BOTH); // Pour rendre la fenetre à la taille maximul de l'écran
+        frame.setUndecorated(true);//Mettre entièrement en plein ecran (enlever la barre windows et le haut du JFrame)
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(couleur);
         
