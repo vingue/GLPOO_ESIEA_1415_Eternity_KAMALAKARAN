@@ -15,7 +15,11 @@ public class Main {
 	Color couleur=Color.cyan;
 	
     public Main() {
+<<<<<<< HEAD
         JFrame frame=new JFrame("On est 12!");
+=======
+        JFrame frame=new JFrame("On est les + mimi!");
+>>>>>>> branch 'master' of https://github.com/vingue/Eternity.git
 
 
         frame.setMinimumSize(new Dimension(640,480));
