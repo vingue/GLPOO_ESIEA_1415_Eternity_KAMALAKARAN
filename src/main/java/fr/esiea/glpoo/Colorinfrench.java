@@ -18,13 +18,14 @@ public Color parse(String str) {
 		
 	case "jaune":
 		color=Color.yellow;
-
-
-	case "rouge":
-		color=Color.red;
-		
+break;
 	case "noir":
 		color=Color.black;
+break;
+	case "rouge":
+		color=Color.red;
+		break;
+	
 	
 	
 	}
