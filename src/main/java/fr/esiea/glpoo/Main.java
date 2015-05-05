@@ -1,9 +1,10 @@
 package fr.esiea.glpoo;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,15 +58,15 @@ public class Main implements ActionListener{
         JButton redoButton = new JButton("Redo");
         redoButton.setActionCommand("redo");
         redoButton.addActionListener(this);
-        File file=new File("./image/Googolopoly.jpg");
+        File file=new File("src/main/ressources/Googolopoly.jpg");
         JLabel lab = new JLabel(new ImageIcon(file.getPath())); 
-        File file2=new File("./image/piece1.jpg");
+        File file2=new File("src/main/ressources/piece1.jpg");
         JLabel lab2 = new JLabel(new ImageIcon(file2.getPath()));
-        File file3=new File("./image/piece2.png");
+        File file3=new File("src/main/ressources/piece2.png");
         JLabel lab3 = new JLabel(new ImageIcon(file3.getPath()));
-        File file4=new File("./image/piece3.png");
+        File file4=new File("src/main/ressources/piece3.png");
         JLabel lab4 = new JLabel(new ImageIcon(file4.getPath()));
-        File file5=new File("./image/piece4.png");
+        File file5=new File("src/main/ressources/piece4.png");
         JLabel lab5 = new JLabel(new ImageIcon(file5.getPath()));
         text.setText("Valeur de départ: "+val);
                 
