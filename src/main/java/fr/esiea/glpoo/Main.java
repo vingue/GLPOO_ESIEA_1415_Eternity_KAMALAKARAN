@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 public class Main implements ActionListener{
     
 	Pieces piece = new Pieces();
-	 
+	 MoveComponents mvcp = new MoveComponents();
 	String couleur=piece.run();
 	 	
 	Colorinfrench color =new Colorinfrench();
@@ -37,7 +37,7 @@ public class Main implements ActionListener{
 		  
         frame.setMinimumSize(new Dimension(640,480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        frame.setContentPane(mvcp);
         frame.getContentPane().setBackground(test);
 
      

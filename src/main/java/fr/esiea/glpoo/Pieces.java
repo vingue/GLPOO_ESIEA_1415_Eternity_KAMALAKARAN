@@ -34,7 +34,7 @@ public class Pieces {
 				String[] couleur = line.split(cvsSplitBy);
 	            
 			
-	 return couleur[1];
+	 return couleur[0];
 			}
 	 
 	 
