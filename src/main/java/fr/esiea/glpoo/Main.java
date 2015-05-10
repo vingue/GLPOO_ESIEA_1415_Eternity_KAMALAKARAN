@@ -4,10 +4,13 @@ package fr.esiea.glpoo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
@@ -33,12 +36,11 @@ public class Main implements ActionListener{
     public Main() {
         JFrame frame=new JFrame("Eternity II");
 
-
-		  
+     		  
         frame.setMinimumSize(new Dimension(640,480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(mvcp);
-        frame.getContentPane().setBackground(test);
+     
+       // frame.getContentPane().setBackground(test);
 
      
         
@@ -60,14 +62,41 @@ public class Main implements ActionListener{
         redoButton.addActionListener(this);
         File file=new File("src/main/ressources/Googolopoly.jpg");
         JLabel lab = new JLabel(new ImageIcon(file.getPath())); 
-        File file2=new File("src/main/ressources/piece1.jpg");
-        JLabel lab2 = new JLabel(new ImageIcon(file2.getPath()));
-        File file3=new File("src/main/ressources/piece2.png");
-        JLabel lab3 = new JLabel(new ImageIcon(file3.getPath()));
-        File file4=new File("src/main/ressources/piece3.png");
-        JLabel lab4 = new JLabel(new ImageIcon(file4.getPath()));
-        File file5=new File("src/main/ressources/piece4.png");
-        JLabel lab5 = new JLabel(new ImageIcon(file5.getPath()));
+        File file5=new File("src/main/ressources/testpiece.png");
+        JLabel label = new JLabel(new ImageIcon(file5.getPath()));
+        final Point pos = new Point();
+
+        label.addMouseListener(new MouseListener()
+        {
+            @Override
+            public void mousePressed(MouseEvent e) 
+            {
+                pos.setLocation(e.getX(),e.getY());
+            }
+            
+            public void mouseClicked(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {}
+            public void mouseExited(MouseEvent e) {}            
+        });
+
+        label.addMouseMotionListener(new MouseMotionListener()
+        {
+            @Override
+            public void mouseDragged(MouseEvent e)
+            {
+                label.setLocation(label.getX()+e.getX()-pos.x, label.getY()+e.getY()-pos.y);
+            }
+
+            public void mouseMoved(MouseEvent e) {}            
+        });
+      //  File file2=new File("src/main/ressources/piece1.jpg");
+      //  JLabel lab2 = new JLabel(new ImageIcon(file2.getPath()));
+      //  File file3=new File("src/main/ressources/piece2.png");
+       // JLabel lab3 = new JLabel(new ImageIcon(file3.getPath()));
+        //File file4=new File("src/main/ressources/piece3.png");
+       // JLabel lab4 = new JLabel(new ImageIcon(file4.getPath()));
+    
         text.setText("Valeur de départ: "+val);
                 
         buttonPanel.setLayout(new GridLayout(2,2));
@@ -77,10 +106,11 @@ public class Main implements ActionListener{
         buttonPanel.add(resetButton);
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Boutons"));
         piecePanel.setLayout(new GridLayout(2,2));
-        piecePanel.add(lab2);
-        piecePanel.add(lab3);
-        piecePanel.add(lab4);
-        piecePanel.add(lab5);
+    //    piecePanel.add(lab2);
+   //     piecePanel.add(lab3);
+   //     piecePanel.add(lab4);
+       frame.add(label);
+        
         piecePanel.setBorder(BorderFactory.createTitledBorder("Pieces"));
         aidePanel.setLayout(new BorderLayout());
         aidePanel.setBorder(BorderFactory.createTitledBorder("Aide"));
@@ -89,6 +119,8 @@ public class Main implements ActionListener{
         aidePanel.add(piecePanel, BorderLayout.SOUTH);
         frame.add(aidePanel, BorderLayout.EAST);
         frame.add(lab, BorderLayout.WEST);
+       
+       
         
         frame.pack();
        
