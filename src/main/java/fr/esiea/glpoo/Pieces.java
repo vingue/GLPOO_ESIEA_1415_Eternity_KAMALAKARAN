@@ -18,7 +18,7 @@ public class Pieces {
 	
 	public String run() {
 		 
-		String csvFile = "/Users/Vincent/Documents/TP/workspace/Eternity/src/test/ressources/fr/esiea/glpoo/faces-01.csv";
+		String csvFile = "src/test/ressources/faces-01.csv";
 		BufferedReader br = null;
 		String line = ";";
 		String cvsSplitBy = ",";
