@@ -27,6 +27,8 @@ public class Main implements ActionListener{
 	Color test=color.parse(couleur);
 	private int val=0;
 	JLabel text= new JLabel();
+	private int height=480;
+	private int width=480;
 
 	
     public Main() {
@@ -39,12 +41,15 @@ public class Main implements ActionListener{
 
         frame.getContentPane().setBackground(test);
 
-     
+        Dimension taillePlateau = new Dimension(480,480);
+        Dimension taillePieces = new Dimension(width/4,height/4);
         
         frame.setLayout(new BorderLayout());
         JPanel buttonPanel=new JPanel();
         JPanel aidePanel=new JPanel();
         JPanel piecePanel=new JPanel();
+        JPanel plateauJeu = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        plateauJeu.setPreferredSize(taillePlateau);
         JButton resetButton = new JButton("Restart");
         resetButton.setActionCommand("reset");
         resetButton.addActionListener(this);
@@ -57,8 +62,8 @@ public class Main implements ActionListener{
         JButton redoButton = new JButton("Redo");
         redoButton.setActionCommand("redo");
         redoButton.addActionListener(this);
-        File file=new File("./image/Googolopoly.jpg");
-        JLabel lab = new JLabel(new ImageIcon(file.getPath())); 
+        /*File file=new File("./image/Googolopoly.jpg");
+        JLabel lab = new JLabel(new ImageIcon(file.getPath()));*/ 
         File file2=new File("./image/piece1.jpg");
         JLabel lab2 = new JLabel(new ImageIcon(file2.getPath()));
         File file3=new File("./image/piece2.png");
@@ -68,6 +73,21 @@ public class Main implements ActionListener{
         File file5=new File("./image/piece4.png");
         JLabel lab5 = new JLabel(new ImageIcon(file5.getPath()));
         text.setText("Valeur de départ: "+val);
+        
+        int num=1;
+        JLabel[][] plateau = new JLabel[4][4];
+        for(int i=0; i<4; i++) {
+        	for(int j=0; j<4; j++) {
+        		plateau[i][j]= new JLabel();
+        		plateau[i][j].setPreferredSize(taillePieces);
+        		File file=new File("./image/piece_"+num+".jpg");
+                ImageIcon icon=new ImageIcon(file.getPath());
+                plateau[i][j].setIcon(icon);
+        		plateau[i][j].setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        		plateauJeu.add(plateau[i][j]);
+        		num++;
+        	}
+        }
                 
         buttonPanel.setLayout(new GridLayout(2,2));
         buttonPanel.add(undoButton);
@@ -87,7 +107,8 @@ public class Main implements ActionListener{
         aidePanel.add(text,BorderLayout.CENTER);
         aidePanel.add(piecePanel, BorderLayout.SOUTH);
         frame.add(aidePanel, BorderLayout.EAST);
-        frame.add(lab, BorderLayout.WEST);
+        //frame.add(lab, BorderLayout.WEST);
+        frame.add(plateauJeu, BorderLayout.WEST);
         
         frame.pack();
        
@@ -101,7 +122,7 @@ public class Main implements ActionListener{
     public static void main(String[] args) {
         new Main();
     }
-
+    
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
