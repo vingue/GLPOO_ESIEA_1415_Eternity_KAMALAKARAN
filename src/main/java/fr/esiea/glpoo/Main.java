@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 public class Main implements ActionListener{
     
 	Pieces piece = new Pieces();
-	 MoveComponents mvcp = new MoveComponents();
+	
 	String couleur=piece.run();
 	 	
 	Colorinfrench color =new Colorinfrench();
@@ -39,7 +39,7 @@ public class Main implements ActionListener{
 		  
         frame.setMinimumSize(new Dimension(640,480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(mvcp);
+        frame.setContentPane(piece);
         frame.getContentPane().setBackground(test);
 
         Dimension taillePlateau = new Dimension(480,480);
@@ -75,18 +75,18 @@ public class Main implements ActionListener{
         JLabel lab5 = new JLabel(new ImageIcon(file5.getPath()));
         text.setText("Valeur de départ: "+val);
         
-        int num=1;
+      //  int num=1;
         JLabel[][] plateau = new JLabel[4][4];
         for(int i=0; i<4; i++) {
         	for(int j=0; j<4; j++) {
         		plateau[i][j]= new JLabel();
         		plateau[i][j].setPreferredSize(taillePieces);
-        		File file=new File("src/main/ressources/piece_"+num+".jpg");
-                ImageIcon icon=new ImageIcon(file.getPath());
-                plateau[i][j].setIcon(icon);
+        		//File file=new File("src/main/ressources/piece_"+num+".jpg");
+               // ImageIcon icon=new ImageIcon(file.getPath());
+              //  plateau[i][j].setIcon(icon);
         		plateau[i][j].setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         		plateauJeu.add(plateau[i][j]);
-        		num++;
+        	//	num++;
         	}
         }
                 
