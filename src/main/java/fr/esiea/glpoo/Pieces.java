@@ -31,6 +31,7 @@ public class Pieces extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 
 	
 //Constructeur de la piece 
@@ -106,6 +107,7 @@ public class Pieces extends JPanel{
 	        private JLabel component;
 	        private int rely;
 	        private Container container;
+			private int Val_Rotation=0;
 	        
 	 
 	        public PiecesMove(Container container) {
@@ -120,6 +122,11 @@ public class Pieces extends JPanel{
 				 
 				 rotate(component);
 				
+				 //Pour nesrine, c'est pour la valeur de rotation
+				 Val_Rotation++;
+				 if(Val_Rotation==4)
+					 Val_Rotation=0;
+				 System.out.println(Val_Rotation);
 					  }
 				  }
 				}
@@ -200,7 +207,7 @@ public class Pieces extends JPanel{
 		        
 
 }
-	        
+	       
 	    } //Fin de la class PiecesMove
 	    
 	   
