@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Main implements ActionListener, ItemListener{
@@ -141,6 +142,12 @@ public class Main implements ActionListener, ItemListener{
         frame.add(plateauJeu, BorderLayout.WEST);
         frame.setResizable(false);
         frame.pack();
+        
+        regle.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				JOptionPane.showMessageDialog(null,"Dans ce jeu, chaque pièce est unique, c’est-à-dire que chaque pièce possède une combinaison unique de faces.\nLes pièces peuvent se ressembler par symétrie mais pas par rotation\n\nR - Rotation\nCliquer sur une pièce pour la sélectionner\nClique une deuxième fois sur une pièce pour la déposer");
+			}	    	
+	    });
        
         frame.setVisible(true);
     }
