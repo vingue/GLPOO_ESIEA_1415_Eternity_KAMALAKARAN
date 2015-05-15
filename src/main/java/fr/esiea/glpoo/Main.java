@@ -21,7 +21,7 @@ public class Main implements ActionListener{
     
 	Pieces piece = new Pieces();
 	
-
+	
 	String couleur=piece.run();
 	 	
 	Colorinfrench color =new Colorinfrench();
@@ -106,7 +106,7 @@ public class Main implements ActionListener{
         frame.add(plateauJeu, BorderLayout.WEST);
         frame.setResizable(false);
         frame.pack();
-       
+        
         frame.setVisible(true);
         
        
@@ -125,6 +125,7 @@ public class Main implements ActionListener{
 			case "reset":
 				val=0;
 				text.setText("La valeur a été réinitialisé à "+val);
+				
 				break;
 
 			case "undo":
