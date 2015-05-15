@@ -31,9 +31,7 @@ public class Pieces extends JPanel{
 	//A VOIR COMMENT FAIRE VINCENT
 	private int num_j=1; //Variable permettant de choisir le jeu(puzzle) choisit par le joueur
 	private String name_p;
-	//limero
 	private int rota;
-	//limero
 	private PiecesMove listener;
 
 
@@ -59,23 +57,29 @@ public class Pieces extends JPanel{
         
         
     }
-	//limero
+	
+	//Getter pour le nom
 	public String recupName() {
 		name_p=listener.getPieces_Name();
 		return name_p;
 	}
 	
+	//Getter pour la rotation
 	public int recupRot() {
 		rota=listener.getVal_Rotation();
 		return rota;
 	}
-	//limero
+	
+	//Getter pour le jeu de piece
+	public int recupJeu() {
+		return num_j;
+	}
 	
 	//Methode permettant de créer les pièces du jeu
 	  private JLabel createPieces(int num, int num_j) {
 		  
 		    //On récupère l'image de la pièce selon son numéro, ainsi que le numéro du jeu et on l'ajoute au Label
-	        ImageIcon image = new ImageIcon((new ImageIcon("src/main/ressources/piece_"+num+".jpg").getImage()).getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
+	        ImageIcon image = new ImageIcon((new ImageIcon("src/main/ressources/jeu_"+num_j+"/piece_"+num+".jpg").getImage()).getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
 			JLabel piece=new JLabel(image);
 	        
 			  //Variable random permettant de mettre au hasard les pièces dans le dépot
@@ -232,22 +236,22 @@ public class Pieces extends JPanel{
 
          }
 
-
-	      //limero
+	        //Getter pour la rotation
 	        public int getVal_Rotation() {
 	        	return Val_Rotation;
 	        }
-	      //limero
-
+	        
+	      //Getter pour le nom de la piece
 			public String getPieces_Name() {
 				return Pieces_Name;
 			}
 
-
+			//Remettre la rotation a 0
 			public void setRota() {
 				Val_Rotation=0;
 			}
 
+			//Setter pour le nom de la piece
 			public void setPieces_Name(String pieces_Name) {
 				Pieces_Name = pieces_Name;
 			}
@@ -314,3 +318,4 @@ public class Pieces extends JPanel{
 		}
 
 }//Fin de la class Pièces
+

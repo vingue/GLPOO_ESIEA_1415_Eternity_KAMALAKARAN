@@ -41,7 +41,9 @@ public class Main implements ActionListener, ItemListener{
 	private int i;
 	private int j;
 	private int catiputi;
+	private int jeu_num;
 
+	//Declaration de la barre de menu
 	private JFrame frame;
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu jeu = new JMenu("Jeu");
@@ -53,16 +55,18 @@ public class Main implements ActionListener, ItemListener{
 	
     public Main() {
     	
-        frame=new JFrame("Eternity II");
+        frame=new JFrame("Eternity II"); //Initialisation de notre fenetre
         
+        //Création des pieces
         piece = new Pieces();
         couleur=piece.run();
 		  
+        //Préparation de la fenetre
         frame.setMinimumSize(new Dimension(640,480));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(piece);
-        //frame.getContentPane().setBackground(test);
-        
+    
+        //Prepartion et integration de la barre de menu
         undo.setActionCommand("undo");
         undo.addActionListener(this);
         reset.setActionCommand("reset");
@@ -70,15 +74,15 @@ public class Main implements ActionListener, ItemListener{
         jeu.add(reset);
         jeu.add(undo);
         aide.add(regle);
-        
         menuBar.add(jeu);
         menuBar.add(aide);
-        
         frame.setJMenuBar(menuBar);
 
         Dimension taillePlateau = new Dimension(480,480);
         Dimension taillePieces = new Dimension(width/4,height/4);
         
+        
+        //Organisation de l'interieur de la fenetre
         frame.setLayout(new BorderLayout());
         JPanel buttonPanel=new JPanel();
         JPanel aidePanel=new JPanel();
@@ -93,7 +97,7 @@ public class Main implements ActionListener, ItemListener{
         			System.out.println(e.getX() + "," + e.getY());
         		}
         });
-        JButton resetButton = new JButton("Restart");
+        JButton resetButton = new JButton("Reset");
         resetButton.setActionCommand("reset");
         resetButton.addActionListener(this);
         JButton undoButton = new JButton("Undo");
@@ -105,14 +109,10 @@ public class Main implements ActionListener, ItemListener{
         JButton redoButton = new JButton("Redo");
         redoButton.setActionCommand("redo");
         redoButton.addActionListener(this);
-        /*File file=new File("src/main/ressources/Googolopoly.jpg");
-        JLabel lab = new JLabel(new ImageIcon(file.getPath()));*/
         File file2=new File("src/main/ressources/depotpiece.jpg");
         JLabel lab2 = new JLabel(new ImageIcon(file2.getPath()));
         
         text.setText("Valeur de départ: "+val);
-        
-      //  int num=1;
         
         for(i=0; i<4; i++) {
         	for(j=0; j<4; j++) {
@@ -120,10 +120,9 @@ public class Main implements ActionListener, ItemListener{
         		plateau[i][j].setPreferredSize(taillePieces);
         		plateau[i][j].setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         		plateauJeu.add(plateau[i][j]);
-        	//	num++;
         	}
         }
-               
+        jeu_num=piece.recupJeu();      
         buttonPanel.setLayout(new GridLayout(2,2));
         buttonPanel.add(undoButton);
         buttonPanel.add(redoButton);
@@ -139,17 +138,11 @@ public class Main implements ActionListener, ItemListener{
         aidePanel.add(text,BorderLayout.CENTER);
         aidePanel.add(piecePanel, BorderLayout.SOUTH);
         frame.add(aidePanel, BorderLayout.EAST);
-        //frame.add(lab, BorderLayout.WEST);
         frame.add(plateauJeu, BorderLayout.WEST);
         frame.setResizable(false);
         frame.pack();
        
         frame.setVisible(true);
-        
-        
-       
-
-//System.out.println(couleur);
     }
     
     public static void main(String[] args) {
@@ -157,11 +150,13 @@ public class Main implements ActionListener, ItemListener{
     	
     }
     
+    //Methode pour reinitialiser a partie
     public void restart() {
     	piece = new Pieces();
         couleur=piece.run();
     }
     
+    //Methode pour faire rotater le JPanel et donc notre image
     public void rotateCase(JLabel panel){
     	
     	ImageIcon icon = (ImageIcon) panel.getIcon();
@@ -183,183 +178,100 @@ public class Main implements ActionListener, ItemListener{
 
  }
     
+    //Methode pour identifier la case du plateau dont l'image va changer
     public void changeImage(int x, int y) {
     	System.out.println(x + "," + y);
     	if(x>=0 && x<120 && y>=0 && y<120) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[0][0].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[0][0]);
-          	}
+    		changeLabel(plateau[0][0]);
     	}
     	
     	if(x>=120 && x<240 && y>=0 && y<120) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[0][1].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[0][1]);
-          	}
+    		changeLabel(plateau[0][1]);
     	}
     	
     	if(x>=240 && x<360 && y>=0 && y<120) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[0][2].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[0][2]);
-          	}
+    		changeLabel(plateau[0][2]);
     	}
     	
     	if(x>=360 && x<480 && y>=0 && y<120) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[0][3].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[0][3]);
-          	}
+    		changeLabel(plateau[0][3]);
     	}
     	
     	if(x>=0 && x<120 && y>=120 && y<240) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[1][0].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[1][0]);
-          	}
+    		changeLabel(plateau[1][0]);
     	}
     	
     	if(x>=120 && x<240 && y>=120 && y<240) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[1][1].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[1][1]);
-          	}
+    		changeLabel(plateau[1][1]);
     	}
     	
     	if(x>=240 && x<360 && y>=120 && y<240) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[1][2].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[1][2]);
-          	}
+    		changeLabel(plateau[1][2]);
     	}
     	
     	if(x>=360 && x<480 && y>=120 && y<240) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[1][3].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[1][3]);
-          	}
+    		changeLabel(plateau[1][3]);
     	}
     	
     	if(x>=0 && x<120 && y>=240 && y<360) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[2][0].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[2][0]);
-          	}
+    		changeLabel(plateau[2][0]);
     	}
     	
     	if(x>=120 && x<240 && y>=240 && y<360) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[2][1].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[2][1]);
-          	}
+    		changeLabel(plateau[2][1]);
     	}
     	
     	if(x>=240 && x<360 && y>=240 && y<360) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[2][2].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[2][2]);
-          	}
+    		changeLabel(plateau[2][2]);
     	}
     	
     	if(x>=360 && x<480 && y>=240 && y<360) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[2][3].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[2][3]);
-          	}
+    		changeLabel(plateau[2][3]);
     	}
     	
     	if(x>=0 && x<120 && y>=360 && y<480) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[3][0].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[3][0]);
-          	}
+    		changeLabel(plateau[3][0]);
     	}
     	
     	if(x>=120 && x<240 && y>=360 && y<480) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[3][1].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[3][1]);
-          	}
+    		changeLabel(plateau[3][1]);
+          	
     	}
     	
     	if(x>=240 && x<360 && y>=360 && y<480) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[3][2].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[3][2]);
-          	}
+    		changeLabel(plateau[3][2]);
     	}
     	
     	if(x>=360 && x<480 && y>=360 && y<480) {
     		System.out.println(piece.recupName());
-    		File file=new File("src/main/ressources/"+piece.recupName()+".jpg");
-            ImageIcon icon=new ImageIcon(file.getPath());
-            plateau[3][3].setIcon(icon);
-            catiputi=piece.recupRot();
-            for(int f=0;f<catiputi;f++){
-          	  rotateCase(plateau[3][3]);
-          	}
+    		changeLabel(plateau[3][3]);
     	}
+    }
+    
+    //Methode pour placer l'image avec la rotation souhaitée dans le label en parametre
+    public void changeLabel(JLabel label) {
+    	File file=new File("src/main/ressources/jeu_"+jeu_num+"/"+piece.recupName()+".jpg");
+        ImageIcon icon=new ImageIcon(file.getPath());
+        label.setIcon(icon);
+        catiputi=piece.recupRot();
+        for(int f=0;f<catiputi;f++){
+      	  rotateCase(label);
+      	}
     }
     
 	@Override
@@ -373,10 +285,8 @@ public class Main implements ActionListener, ItemListener{
 
 			case "undo":
 				val--;
-				//limero
 				System.out.println(piece.recupName());
 				System.out.println(piece.recupRot()); 
-				//limero
 				text.setText("On a rétiré 1 à notre valeur on a donc: "+val);
 				break;
 
@@ -390,12 +300,6 @@ public class Main implements ActionListener, ItemListener{
 				text.setText("On a inversé notre valeur on a donc: "+val);
 				break;
 		}
-	}
-
-	public void iconClicked(JLabel label, String name) {
-		File file=new File("src/main/ressources/"+name+".jpg");
-        ImageIcon icon=new ImageIcon(file.getPath());
-        label.setIcon(icon);
 	}
 	
 	@Override
