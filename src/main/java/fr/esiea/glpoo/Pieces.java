@@ -20,113 +20,184 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
-
-
-
-
+//Class permettant de créer les pièces et de les mettres dans le dépôt de pièce du jeu et de les déplacer/rotater
 public class Pieces extends JPanel{
 
-	/**
+
+/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	//A VOIR COMMENT FAIRE VINCENT
+	private int num_j=1; //Variable permettant de choisir le jeu(puzzle) choisit par le joueur
+	private String name_p;
+	//limero
+	private int rota;
+	//limero
+	private PiecesMove listener;
 
-	
+
 //Constructeur de la piece 
 	public Pieces() {
 		
-        setLayout(null); // on supprime le layout manager
+        setLayout(null); // On supprime le layout manager
  
-        PiecesMove listener = new PiecesMove(this); //Permet de cr�er le listener permettant de bouger la piece
+        listener = new PiecesMove(this); //Permet de créer le listener permettant de bouger la piece
       
-        for(int num=1; num<17; num++) { //Cr�er les 16 pi�ces du jeu
-            add(createPieces(num));
+        for(int num=1; num<17; num++) { //Création des 16 pièces du jeu grâce à la méthode createPieces
+            add(createPieces(num,num_j));
         }
-        
+  
+        //Ajout des listener permettant de rotater et déplacer/déposer une pièce
         addKeyListener(listener); 
-        
         addMouseListener(listener);
         addMouseMotionListener(listener);
+        name_p=listener.getPieces_Name(); //VINCEIN
+        //Pour le KeyListener 
         setFocusable(true);
         requestFocus();
         
         
     }
+	//limero
+	public String recupName() {
+		name_p=listener.getPieces_Name();
+		return name_p;
+	}
 	
+	public int recupRot() {
+		rota=listener.getVal_Rotation();
+		return rota;
+	}
+	//limero
 	
-   
-	
-	//Methode pour cr�er la piece
-	  private JLabel createPieces(int num) {
+	//Methode permettant de créer les pièces du jeu
+	  private JLabel createPieces(int num, int num_j) {
 		  
-	        ImageIcon image = new ImageIcon("src/main/ressources/piece_"+num+".jpg");
+		    //On récupère l'image de la pièce selon son numéro, ainsi que le numéro du jeu et on l'ajoute au Label
+	        ImageIcon image = new ImageIcon((new ImageIcon("src/main/ressources/piece_"+num+".jpg").getImage()).getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
 			JLabel piece=new JLabel(image);
-	        //Creation du JLabel ( la pi�ce) avec l'image dedans
+	        
+			  //Variable random permettant de mettre au hasard les pièces dans le dépot
 		      int lower = 1;
-		        int higher = 5;
+		      int higher = 5;
 
-		        int random = (int)(Math.random() * (higher-lower)) + lower;
-		        System.out.println(random);
-	     //Valeur de gauche haut (505,283)
+		      int random = (int)(Math.random() * (higher-lower)) + lower;
+		       
+		        
+	     //Valeur de gauche haut (505,283) dans le dépot des pièces
 			if(random==1)
 			 piece.setLocation(502,283 );
 		//Valeur de droite haut (594,283)
 			if(random==2)
 			 piece.setLocation(594,283 );
-			 
-			//Valeur de droite bas (594,374)
+		//Valeur de droite bas (594,374)
 			if(random==3)
 			 piece.setLocation(594,374 );
-			//Valeur de gauche bas (505 ,374)
+		//Valeur de gauche bas (505 ,374)
 			if(random==4)
 			 piece.setLocation(505,374 );
 		
-		// position vers l'endroit des pieces
-			
-			 
-	       piece.setSize(80,80); //Taille de la piece
-	        piece.setName("piece_"+num); //Nom de la piece
+			//On affecte la taille de la pièce et son nom pour l'identifier
+	        piece.setSize(80,80); 
+	        piece.setName("piece_"+num); 
 	        
-	        
-
 	       
 	        return piece;
 	    }
 	 
 	  
-	  //Class permettant de cr�er un sorte de listener qui permet de bouger la piece
-	  //Debut de la class piecesmove//
+	  
+	  
+	  
+	  
+	  
+	  
+	  //Debut de la class PiecesMove permettant de créer un listener permettant de faire les mouvements de rotation et déplacement d'une pièce
 	    private static class PiecesMove extends MouseAdapter implements KeyListener{
 	    	
 	    	
-	  
-	        private boolean move;
+			private boolean move; //Variable permettant de savoir si la pièce est déplacer
 	        private int relx;
 	        private JLabel component;
 	        private int rely;
 	        private Container container;
-			private int Val_Rotation=0;
-	        
-	 
+			private int Val_Rotation=0; //La valeur de rotation est nulle au départ
+	        private String Pieces_Name;
+			
 	        public PiecesMove(Container container) {
 	            this.container=container;
 	        }
 	        
+	       
+
+	 
+	        @Override //Listener permettant de déposer une pièce lors de son dépalcement et de déplacer une pièce
+	        public void mousePressed(MouseEvent e) {
+	        	
+	        	//Si on a un mouvement
+	            if ( move ) {
+	                move=false; //On le met en arrêt
+	                component.setBorder(null); //Et on supprime la bordure noire qui indique que nous déplaçons une pièce
+	              //METTRE ICI POUR RECUPERER LE NOM DE LA PIECE DEPOSER POUR VINCENT// 
+	                setPieces_Name(component.getName());//VINCEIN
+	             
+	                component=null; //On oublie la component
+	                
+	               
+	            }
+	            else { // Si il n'y a pas de mouvement
+	            	
+	                component = getPiece(e.getX(),e.getY()); //On mémorise la pièce à déplacer avec la méthode getPiece
+	                setPieces_Name(component.getName());
+	                setRota();
+	                if ( component!=null ) { 
+	                	
+	                    container.setComponentZOrder(component,0); //Place le composant le plus haut possible
+	                    relx = e.getX()-component.getX(); //On mémorise la position relative
+	                    rely = e.getY()-component.getY(); //On mémorise la position relative
+	                    move=true; //Indication du démarrage du mouvement
+	                    component.setBorder(BorderFactory.createLineBorder(Color.BLACK)); //On indique la pièce sélectionnée par une bordure noire
+	                   
+	                }
+	            }
+	        }
+	 
+	        //Méthode permettant de définir la pièce que nous avons cliqué dessus
+	        private JLabel getPiece(int x, int y) {
+	        	
+	            //On recherche la première pièce qu'on clique dessus pour la déplacer
+	            for(Component component : container.getComponents()) {
+	            	// Il faut que getName soit différent de null puisque seul les pièces ont un nom comme composant, et on veut seulement déplacer les pièces
+	                if ( component instanceof JLabel && component.getBounds().contains(x, y) && component.getName()!=null ) { 
+	                	return (JLabel)component; //On retourne la pièce qu'on a cliqué dessus
+	                }
+	            }
+	            return null;
+	        }
+	 
 	        @Override
+	        public void mouseMoved(MouseEvent e) {
+	            if ( move ) {
+	                //Si on déplace le component (la pièce), on change sa position
+	                component.setLocation(e.getX()-relx, e.getY()-rely);
+	            }
+	        }
+	        
+	        @Override //Listener KeyPressed pour la Rotation
 	        public void keyPressed(KeyEvent evt) {
 				
-				  if(evt.getKeyCode()==82){
-					  if(move==true){
+				  if(evt.getKeyCode()==82){ //Vérification de la touche R pour la rotation
+					  
+					  if(move==true){ //Si on a la pièce en mouvement
 				 
-				 rotate(component);
+						  	rotate(component);//Alors on peut effectuer une rotation
 				
 				 //Pour nesrine, c'est pour la valeur de rotation
-				 Val_Rotation++;
-				 if(Val_Rotation==4)
-					 Val_Rotation=0;
-				 System.out.println(Val_Rotation);
+						  	Val_Rotation++; //On augmente la valeur du nombre de rotation
+						  	if(Val_Rotation==4)//Si on a effectué un tour complet
+						  		Val_Rotation=0;//On remet la valeur à zéro
+				
 					  }
 				  }
 				}
@@ -139,54 +210,7 @@ public class Pieces extends JPanel{
 	        	
 	        	}
 
-
-
-	 
-	        @Override
-	        public void mousePressed(MouseEvent e) {
-	            if ( move ) {
-	                move=false; // arr�t du mouvement
-	                component.setBorder(null); // on  supprime la bordure noire
-	              //METTRE ICI POUR RECUPERER LE NOM DE LA PIECE DEPOSER// 
-	               
-	                component=null;
-	                
-	               
-	            }
-	            else {
-	                component = getPiece(e.getX(),e.getY()); // on m�morise le composant en d�placement
-	                if ( component!=null ) {
-	                	
-	                    container.setComponentZOrder(component,0); // place le composant le plus haut possible
-	                    relx = e.getX()-component.getX(); // on m�morise la position relative
-	                    rely = e.getY()-component.getY(); // on m�morise la position relative
-	                    move=true; // d�marrage du mouvement
-	                    component.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // on indique le composant s�lectionn� par une bordure noire
-	                   
-	                }
-	            }
-	        }
-	 
-	        private JLabel getPiece(int x, int y) {
-	        	
-	            // on recherche le premier composant qui correspond aux coordonn�es de la souris
-	            for(Component component : container.getComponents()) {
-	            	// Il faut que getName soit diff�rent de null puisque seul les pi�ces ont un nom comme composant, et on veut seulement d�placer les pi�ces
-	                if ( component instanceof JLabel && component.getBounds().contains(x, y) && component.getName()!=null ) { 
-	                   System.out.println(component.getName());
-	                	return (JLabel)component;
-	                }
-	            }
-	            return null;
-	        }
-	 
-	        @Override
-	        public void mouseMoved(MouseEvent e) {
-	            if ( move ) {
-	                // si on d�place
-	                component.setLocation(e.getX()-relx, e.getY()-rely);
-	            }
-	        }
+	        //Méthode permettant d'effectuer une rotation d'un JLabel
 	        public void rotate(JLabel panel){
 	        	
 	        	ImageIcon icon = (ImageIcon) panel.getIcon();
@@ -206,13 +230,35 @@ public class Pieces extends JPanel{
 		        panel.setIcon(icon);
 		        
 
-}
+         }
+
+
+	      //limero
+	        public int getVal_Rotation() {
+	        	return Val_Rotation;
+	        }
+	      //limero
+
+			public String getPieces_Name() {
+				return Pieces_Name;
+			}
+
+
+			public void setRota() {
+				Val_Rotation=0;
+			}
+
+			public void setPieces_Name(String pieces_Name) {
+				Pieces_Name = pieces_Name;
+			}
+	     
 	       
-	    } //Fin de la class PiecesMove
+} //Fin de la class PiecesMove
 	    
 	   
 	    
-	    
+	    //NESRINE FAUT QUE TU COMMENTES
+	    //Methode run permettant de la class Pieces ..
 	    public String run() {
 			 
 			String csvFile = "src/test/ressources/faces-01.csv";
@@ -254,17 +300,17 @@ public class Pieces extends JPanel{
 		  }
 
 
-	   
+
+
+		public String getName_p() {//VINCEIN
+			return name_p;
+		}
 
 
 
 
-	
-	    
-	    	
-	    	
-	    
-	
-	 
-	 
-}
+		public void setName_p(String name_p) {
+			this.name_p = name_p;
+		}
+
+}//Fin de la class Pièces
