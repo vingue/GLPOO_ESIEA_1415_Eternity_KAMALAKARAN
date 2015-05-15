@@ -19,8 +19,11 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.Image;
 
-//Class permettant de créer les pièces et de les mettres dans le dépôt de pièce du jeu et de les déplacer/rotater
+
+//Class permettant de crÃƒÂ©er les piÃƒÂ¨ces et de les mettres dans le dÃƒÂ©pÃƒÂ´t de piÃƒÂ¨ce du jeu et de les dÃƒÂ©placer/rotater
+//Class permettant de crÃ©er les piÃ¨ces et de les mettres dans le dÃ©pÃ´t de piÃ¨ce du jeu et de les dÃ©placer/rotater
 public class Pieces extends JPanel{
 
 
@@ -28,7 +31,7 @@ public class Pieces extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//A VOIR COMMENT FAIRE VINCENT
+	
 	private int num_j=1; //Variable permettant de choisir le jeu(puzzle) choisit par le joueur
 	private String name_p;
 	private int rota;
@@ -38,25 +41,25 @@ public class Pieces extends JPanel{
 //Constructeur de la piece 
 	public Pieces() {
 		
-        setLayout(null); // On supprime le layout manager
- 
-        listener = new PiecesMove(this); //Permet de créer le listener permettant de bouger la piece
+      setLayout(null); // On supprime le layout manager
+
+      listener = new PiecesMove(this); //Permet de creer le listener permettant de bouger la piece
+    
+      for(int num=1; num<17; num++) { //Creation des 16 pieces du jeu grace a la methode createPieces
+          add(createPieces(num,num_j));
+      }
+
+      //Ajout des listener permettant de rotater et dÃ©placer/dÃ©poser une piÃ¨ce
+      addKeyListener(listener); 
+      addMouseListener(listener);
+      addMouseMotionListener(listener);
+      name_p=listener.getPieces_Name(); //VINCEIN
+      //Pour le KeyListener 
+      setFocusable(true);
+      requestFocus();
       
-        for(int num=1; num<17; num++) { //Création des 16 pièces du jeu grâce à la méthode createPieces
-            add(createPieces(num,num_j));
-        }
-  
-        //Ajout des listener permettant de rotater et déplacer/déposer une pièce
-        addKeyListener(listener); 
-        addMouseListener(listener);
-        addMouseMotionListener(listener);
-        name_p=listener.getPieces_Name(); //VINCEIN
-        //Pour le KeyListener 
-        setFocusable(true);
-        requestFocus();
-        
-        
-    }
+      
+  }
 	
 	//Getter pour le nom
 	public String recupName() {
@@ -75,21 +78,21 @@ public class Pieces extends JPanel{
 		return num_j;
 	}
 	
-	//Methode permettant de créer les pièces du jeu
+	//Methode permettant de crÃ©er les piÃ¨ces du jeu
 	  private JLabel createPieces(int num, int num_j) {
 		  
-		    //On récupère l'image de la pièce selon son numéro, ainsi que le numéro du jeu et on l'ajoute au Label
-	        ImageIcon image = new ImageIcon((new ImageIcon("src/main/ressources/jeu_"+num_j+"/piece_"+num+".jpg").getImage()).getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
-			JLabel piece=new JLabel(image);
+		    //On rÃ©cupÃ¨re l'image de la piÃ¨ce selon son numÃ©ro, ainsi que le numÃ©ro du jeu et on l'ajoute au Label
+		   ImageIcon image = new ImageIcon("src/main/ressources/jeu_"+num_j+"/piece_"+num+".png");
+		   JLabel piece=new JLabel(image);
 	        
-			  //Variable random permettant de mettre au hasard les pièces dans le dépot
+			  //Variable random permettant de mettre au hasard les piÃ¨ces dans le dÃ©pot
 		      int lower = 1;
 		      int higher = 5;
 
 		      int random = (int)(Math.random() * (higher-lower)) + lower;
 		       
 		        
-	     //Valeur de gauche haut (505,283) dans le dépot des pièces
+	     //Valeur de gauche haut (505,283) dans le dÃ©pot des piÃ¨ces
 			if(random==1)
 			 piece.setLocation(502,283 );
 		//Valeur de droite haut (594,283)
@@ -102,7 +105,7 @@ public class Pieces extends JPanel{
 			if(random==4)
 			 piece.setLocation(505,374 );
 		
-			//On affecte la taille de la pièce et son nom pour l'identifier
+			//On affecte la taille de la piÃ¨ce et son nom pour l'identifier
 	        piece.setSize(80,80); 
 	        piece.setName("piece_"+num); 
 	        
@@ -117,16 +120,16 @@ public class Pieces extends JPanel{
 	  
 	  
 	  
-	  //Debut de la class PiecesMove permettant de créer un listener permettant de faire les mouvements de rotation et déplacement d'une pièce
+	  //Debut de la class PiecesMove permettant de crÃ©er un listener permettant de faire les mouvements de rotation et dÃ©placement d'une piÃ¨ce
 	    private static class PiecesMove extends MouseAdapter implements KeyListener{
 	    	
 	    	
-			private boolean move; //Variable permettant de savoir si la pièce est déplacer
+			private boolean move; //Variable permettant de savoir si la piÃ¨ce est dÃ©placer
 	        private int relx;
 	        private JLabel component;
 	        private int rely;
 	        private Container container;
-			private int Val_Rotation=0; //La valeur de rotation est nulle au départ
+			private int Val_Rotation=0; //La valeur de rotation est nulle au dÃ©part
 	        private String Pieces_Name;
 			
 	        public PiecesMove(Container container) {
@@ -136,13 +139,13 @@ public class Pieces extends JPanel{
 	       
 
 	 
-	        @Override //Listener permettant de déposer une pièce lors de son dépalcement et de déplacer une pièce
+	        @Override //Listener permettant de dÃ©poser une piÃ¨ce lors de son dÃ©palcement et de dÃ©placer une piÃ¨ce
 	        public void mousePressed(MouseEvent e) {
 	        	
 	        	//Si on a un mouvement
 	            if ( move ) {
-	                move=false; //On le met en arrêt
-	                component.setBorder(null); //Et on supprime la bordure noire qui indique que nous déplaçons une pièce
+	                move=false; //On le met en arrÃªt
+	                component.setBorder(null); //Et on supprime la bordure noire qui indique que nous dÃ©plaÃ§ons une piÃ¨ce
 	              //METTRE ICI POUR RECUPERER LE NOM DE LA PIECE DEPOSER POUR VINCENT// 
 	                setPieces_Name(component.getName());//VINCEIN
 	             
@@ -152,29 +155,29 @@ public class Pieces extends JPanel{
 	            }
 	            else { // Si il n'y a pas de mouvement
 	            	
-	                component = getPiece(e.getX(),e.getY()); //On mémorise la pièce à déplacer avec la méthode getPiece
+	                component = getPiece(e.getX(),e.getY()); //On mÃ©morise la piÃ¨ce Ã  dÃ©placer avec la mÃ©thode getPiece
 	                setPieces_Name(component.getName());
 	                setRota();
 	                if ( component!=null ) { 
 	                	
 	                    container.setComponentZOrder(component,0); //Place le composant le plus haut possible
-	                    relx = e.getX()-component.getX(); //On mémorise la position relative
-	                    rely = e.getY()-component.getY(); //On mémorise la position relative
-	                    move=true; //Indication du démarrage du mouvement
-	                    component.setBorder(BorderFactory.createLineBorder(Color.BLACK)); //On indique la pièce sélectionnée par une bordure noire
+	                    relx = e.getX()-component.getX(); //On mÃ©morise la position relative
+	                    rely = e.getY()-component.getY(); //On mÃ©morise la position relative
+	                    move=true; //Indication du dÃ©marrage du mouvement
+	                    component.setBorder(BorderFactory.createLineBorder(Color.BLACK)); //On indique la piÃ¨ce sÃ©lectionnÃ©e par une bordure noire
 	                   
 	                }
 	            }
 	        }
 	 
-	        //Méthode permettant de définir la pièce que nous avons cliqué dessus
+	        //MÃ©thode permettant de dÃ©finir la piÃ¨ce que nous avons cliquÃ© dessus
 	        private JLabel getPiece(int x, int y) {
 	        	
-	            //On recherche la première pièce qu'on clique dessus pour la déplacer
+	            //On recherche la premiÃ¨re piÃ¨ce qu'on clique dessus pour la dÃ©placer
 	            for(Component component : container.getComponents()) {
-	            	// Il faut que getName soit différent de null puisque seul les pièces ont un nom comme composant, et on veut seulement déplacer les pièces
+	            	// Il faut que getName soit diffÃ©rent de null puisque seul les piÃ¨ces ont un nom comme composant, et on veut seulement dÃ©placer les piÃ¨ces
 	                if ( component instanceof JLabel && component.getBounds().contains(x, y) && component.getName()!=null ) { 
-	                	return (JLabel)component; //On retourne la pièce qu'on a cliqué dessus
+	                	return (JLabel)component; //On retourne la piÃ¨ce qu'on a cliquÃ© dessus
 	                }
 	            }
 	            return null;
@@ -183,7 +186,7 @@ public class Pieces extends JPanel{
 	        @Override
 	        public void mouseMoved(MouseEvent e) {
 	            if ( move ) {
-	                //Si on déplace le component (la pièce), on change sa position
+	                //Si on dÃ©place le component (la piÃ¨ce), on change sa position
 	                component.setLocation(e.getX()-relx, e.getY()-rely);
 	            }
 	        }
@@ -191,16 +194,16 @@ public class Pieces extends JPanel{
 	        @Override //Listener KeyPressed pour la Rotation
 	        public void keyPressed(KeyEvent evt) {
 				
-				  if(evt.getKeyCode()==82){ //Vérification de la touche R pour la rotation
+				  if(evt.getKeyCode()==82){ //VÃ©rification de la touche R pour la rotation
 					  
-					  if(move==true){ //Si on a la pièce en mouvement
+					  if(move==true){ //Si on a la piÃ¨ce en mouvement
 				 
 						  	rotate(component);//Alors on peut effectuer une rotation
 				
 				 //Pour nesrine, c'est pour la valeur de rotation
 						  	Val_Rotation++; //On augmente la valeur du nombre de rotation
-						  	if(Val_Rotation==4)//Si on a effectué un tour complet
-						  		Val_Rotation=0;//On remet la valeur à zéro
+						  	if(Val_Rotation==4)//Si on a effectuÃ© un tour complet
+						  		Val_Rotation=0;//On remet la valeur Ã  zÃ©ro
 				
 					  }
 				  }
@@ -214,7 +217,7 @@ public class Pieces extends JPanel{
 	        	
 	        	}
 
-	        //Méthode permettant d'effectuer une rotation d'un JLabel
+	        //MÃ©thode permettant d'effectuer une rotation d'un JLabel
 	        public void rotate(JLabel panel){
 	        	
 	        	ImageIcon icon = (ImageIcon) panel.getIcon();
@@ -234,7 +237,7 @@ public class Pieces extends JPanel{
 		        panel.setIcon(icon);
 		        
 
-         }
+      }
 
 	        //Getter pour la rotation
 	        public int getVal_Rotation() {
@@ -259,63 +262,74 @@ public class Pieces extends JPanel{
 	       
 } //Fin de la class PiecesMove
 	    
-	   
-	    
-	    //NESRINE FAUT QUE TU COMMENTES
-	    //Methode run permettant de la class Pieces ..
-	    public String run() {
-			 
-			String csvFile = "src/test/ressources/faces-01.csv";
-			BufferedReader br = null;
-			String line = ";";
-			String cvsSplitBy = ",";
-		 
+ 
+  public static void main(String[] args) {
+ 
+	Pieces obj = new Pieces();
+	obj.run();
+ 
+  }
+ 
+  @SuppressWarnings("finally")
+public String[] run() {
+ 
+	String csvFile = "src/test/ressources/fr/esiea/glpoo/test.csv";
+	BufferedReader br = null;
+	String line = "";
+	String cvsSplitBy = ",";
+	String tab[];
+	tab=new String[32];
+	int i=0;
+ String comp=null;
+	try {
+ 
+		br = new BufferedReader(new FileReader(csvFile));
+	
+		while ((line = br.readLine()) != null) {
+			
+		        // use comma as separator
+			String[] country = line.split(cvsSplitBy);
+ 
+			//System.out.println(country[0]+ ""+country[1]+""+country[2]+""+country[3]+""+country[4]+""+country[5]);
+tab[i]=country[0];
+tab[i+1]=country[1];
+
+	
+i=i+2;
+}
+		/*
+		for(int j=0;j<8;j++){
+	System.out.println(tab[j]+" ");}*/
+	
+	}catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
+	} finally {
+		if (br != null) {
 			try {
-		 
-				
-		 
-				br = new BufferedReader(new FileReader(csvFile));
-				while ((line = br.readLine()) != null) {
-		 
-					// use comma as separator
-					String[] couleur = line.split(cvsSplitBy);
-		            
-				
-		 return couleur[1];
-				}
-		 
-		 
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				br.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} finally {
-				if (br != null) {
-					try {
-						br.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		 
-			
-			return null;
-		  }
-
-
-
-
-		public String getName_p() {//VINCEIN
-			return name_p;
+				
 		}
+	
+	
+  }
+	return tab;
+ 
+}
+	}
+
+	public String getName_p() {
+		return name_p;
+	}
 
 
 
 
-		public void setName_p(String name_p) {
-			this.name_p = name_p;
-		}
+	public void setName_p(String name_p) {
+		this.name_p = name_p;
+	}
 
-}//Fin de la class Pièces
-
+}//Fin de la class PiÃ¨ces

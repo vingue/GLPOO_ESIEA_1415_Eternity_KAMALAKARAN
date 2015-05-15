@@ -1,6 +1,5 @@
 package fr.esiea.glpoo;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -16,6 +15,8 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -28,39 +29,49 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import au.com.bytecode.opencsv.CSVWriter;
+
 public class Main implements ActionListener, ItemListener{
     
-	Pieces piece;
+
 	
 
 	String couleur;
 	
-	private int val=0;
-	JLabel text= new JLabel();
-	private int height=480;
-	private int width=480;
-	private int i;
-	private int j;
-	private int catiputi;
-	private int jeu_num;
+	Pieces piece = new Pieces();
+	String [] debut = piece.run();
+	 	
 
-	//Declaration de la barre de menu
-	private JFrame frame;
-	private JMenuBar menuBar = new JMenuBar();
-	private JMenu jeu = new JMenu("Jeu");
-	private JMenu aide = new JMenu("Aide");
-	private JMenuItem reset = new JMenuItem("Recommencer");
-	private JMenuItem undo = new JMenuItem("Annuler");
-	private JMenuItem regle = new JMenuItem("Regle");
-	private JLabel[][] plateau = new JLabel[4][4];
+
+
+
+private int val=0;
+JLabel text= new JLabel();
+private int height=480;
+private int width=480;
+private int i;
+private int j;
+private int catiputi;
+private int jeu_num;
+
+//Declaration de la barre de menu
+private JFrame frame;
+private JMenuBar menuBar = new JMenuBar();
+private JMenu jeu = new JMenu("Jeu");
+private JMenu aide = new JMenu("Aide");
+private JMenuItem reset = new JMenuItem("Recommencer");
+private JMenuItem undo = new JMenuItem("Annuler");
+private JMenuItem regle = new JMenuItem("Regle");
+private JLabel[][] plateau = new JLabel[4][4];
+
 	
     public Main() {
     	
-        frame=new JFrame("Eternity II"); //Initialisation de notre fenetre
+    	
+    	
+frame=new JFrame("Eternity II"); //Initialisation de notre fenetre
         
-        //Création des pieces
-        piece = new Pieces();
-        couleur=piece.run();
+        
 		  
         //Préparation de la fenetre
         frame.setMinimumSize(new Dimension(640,480));
@@ -145,7 +156,7 @@ public class Main implements ActionListener, ItemListener{
         
         regle.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
-				JOptionPane.showMessageDialog(null,"Dans ce jeu, chaque pièce est unique, c’est-à-dire que chaque pièce possède une combinaison unique de faces.\nLes pièces peuvent se ressembler par symétrie mais pas par rotation\n\nR - Rotation\nCliquer sur une pièce pour la sélectionner\nClique une deuxième fois sur une pièce pour la déposer");
+				JOptionPane.showMessageDialog(null,"Dans ce jeu, chaque pièce est unique, c’est-à-dire que chaque pièce possède une combinaison unique de faces.\nLes pièces peuvent se ressembler par symétrie mais pas par rotation\n\nR - Rotation\nCliquer sur une pièce pour la sélectionner\nClique une deuxième fois sur une pièce pour la déposer\nEnsuite dépose la pièce dans la corbeille.\n\n Bon jeu !");
 			}	    	
 	    });
        
@@ -157,11 +168,7 @@ public class Main implements ActionListener, ItemListener{
     	
     }
     
-    //Methode pour reinitialiser a partie
-    public void restart() {
-    	piece = new Pieces();
-        couleur=piece.run();
-    }
+   
     
     //Methode pour faire rotater le JPanel et donc notre image
     public void rotateCase(JLabel panel){
@@ -187,101 +194,143 @@ public class Main implements ActionListener, ItemListener{
     
     //Methode pour identifier la case du plateau dont l'image va changer
     public void changeImage(int x, int y) {
+    	
+    	CSVWriter writer = null;
     	System.out.println(x + "," + y);
     	if(x>=0 && x<120 && y>=0 && y<120) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
+    		
     		changeLabel(plateau[0][0]);
     	}
     	
     	if(x>=120 && x<240 && y>=0 && y<120) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[0][1]);
     	}
     	
     	if(x>=240 && x<360 && y>=0 && y<120) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[0][2]);
     	}
     	
     	if(x>=360 && x<480 && y>=0 && y<120) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[0][3]);
     	}
     	
     	if(x>=0 && x<120 && y>=120 && y<240) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[1][0]);
     	}
     	
     	if(x>=120 && x<240 && y>=120 && y<240) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[1][1]);
     	}
     	
     	if(x>=240 && x<360 && y>=120 && y<240) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[1][2]);
     	}
     	
     	if(x>=360 && x<480 && y>=120 && y<240) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[1][3]);
     	}
     	
     	if(x>=0 && x<120 && y>=240 && y<360) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[2][0]);
     	}
     	
     	if(x>=120 && x<240 && y>=240 && y<360) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[2][1]);
     	}
     	
     	if(x>=240 && x<360 && y>=240 && y<360) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[2][2]);
     	}
     	
     	if(x>=360 && x<480 && y>=240 && y<360) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[2][3]);
     	}
     	
     	if(x>=0 && x<120 && y>=360 && y<480) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[3][0]);
     	}
     	
     	if(x>=120 && x<240 && y>=360 && y<480) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[3][1]);
           	
     	}
     	
     	if(x>=240 && x<360 && y>=360 && y<480) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[3][2]);
     	}
     	
     	if(x>=360 && x<480 && y>=360 && y<480) {
     		System.out.println(piece.recupName());
+    		System.out.println(piece.recupRot());
     		changeLabel(plateau[3][3]);
     	}
+    	try {
+			writer = new CSVWriter(new FileWriter("src/test/ressources/fr/esiea/glpoo/compar.csv",true), ',');
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+     	String[][] entree = {{piece.recupName(),Integer.toString(piece.recupRot())}};
+     	
+     	for(String elem[]:entree)
+     		writer.writeNext(elem);
+		try {
+			writer.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
     }
+    
+   
+	  
     
     //Methode pour placer l'image avec la rotation souhaitée dans le label en parametre
     public void changeLabel(JLabel label) {
-    	File file=new File("src/main/ressources/jeu_"+jeu_num+"/"+piece.recupName()+".jpg");
-        ImageIcon icon=new ImageIcon(file.getPath());
-        label.setIcon(icon);
-        catiputi=piece.recupRot();
-        for(int f=0;f<catiputi;f++){
-      	  rotateCase(label);
-      	}
+    	if(label.getIcon()==null) {
+    		File file=new File("src/main/ressources/jeu_"+jeu_num+"/"+piece.recupName()+".jpg");
+    		ImageIcon icon=new ImageIcon(file.getPath());
+    		label.setIcon(icon);
+    		catiputi=piece.recupRot();
+    		for(int f=0;f<catiputi;f++){
+    			rotateCase(label);
+    		}
+    	}
     }
     
-	@Override
+    
+    @Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		switch(e.getActionCommand()) {
@@ -307,8 +356,13 @@ public class Main implements ActionListener, ItemListener{
 				text.setText("On a inversé notre valeur on a donc: "+val);
 				break;
 		}
+		
+		
+ 
+ 
+
 	}
-	
+
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		// TODO Auto-generated method stub
