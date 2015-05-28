@@ -24,7 +24,7 @@ public String[] run() {
 	String tab[];
 	tab=new String[32];
 	int i=0;
- String comp=null;
+
 	try {
  
 		br = new BufferedReader(new FileReader(csvFile));

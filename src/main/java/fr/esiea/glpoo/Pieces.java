@@ -18,8 +18,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import java.awt.Image;
+
 
 
 //Class permettant de crÃƒÂ©er les piÃƒÂ¨ces et de les mettres dans le dÃƒÂ©pÃƒÂ´t de piÃƒÂ¨ce du jeu et de les dÃƒÂ©placer/rotater
@@ -36,7 +37,7 @@ public class Pieces extends JPanel{
 	private String name_p;
 	private int rota;
 	private PiecesMove listener;
-
+	
 
 //Constructeur de la piece 
 	public Pieces() {
@@ -47,6 +48,7 @@ public class Pieces extends JPanel{
     
       for(int num=1; num<17; num++) { //Creation des 16 pieces du jeu grace a la methode createPieces
           add(createPieces(num,num_j));
+          
       }
 
       //Ajout des listener permettant de rotater et dÃ©placer/dÃ©poser une piÃ¨ce
@@ -77,6 +79,10 @@ public class Pieces extends JPanel{
 	public int recupJeu() {
 		return num_j;
 	}
+	public void memodepo(boolean deposeer){
+		listener.setDeposer(deposeer);
+	}
+	
 	
 	//Methode permettant de crÃ©er les piÃ¨ces du jeu
 	  private JLabel createPieces(int num, int num_j) {
@@ -109,7 +115,7 @@ public class Pieces extends JPanel{
 	        piece.setSize(80,80); 
 	        piece.setName("piece_"+num); 
 	        
-	       
+	      
 	        return piece;
 	    }
 	 
@@ -131,7 +137,7 @@ public class Pieces extends JPanel{
 	        private Container container;
 			private int Val_Rotation=0; //La valeur de rotation est nulle au dÃ©part
 	        private String Pieces_Name;
-			
+	        boolean deposer;
 	        public PiecesMove(Container container) {
 	            this.container=container;
 	        }
@@ -144,22 +150,32 @@ public class Pieces extends JPanel{
 	        	
 	        	//Si on a un mouvement
 	            if ( move ) {
+	            	
+					if(getDeposer()==true){
 	                move=false; //On le met en arrÃªt
 	                component.setBorder(null); //Et on supprime la bordure noire qui indique que nous dÃ©plaÃ§ons une piÃ¨ce
-	              //METTRE ICI POUR RECUPERER LE NOM DE LA PIECE DEPOSER POUR VINCENT// 
-	                setPieces_Name(component.getName());//VINCEIN
-	             
-	                component=null; //On oublie la component
+	              
+	                //setPieces_Name(component.getName());//On r�cup�re le nom du component qu'on d�pose
 	                
-	               
+	             component.setLocation(1000, 1000); //On le supprime dans la corbeille ( changer de place)
+	             for(int ro=0;ro<4-Val_Rotation;ro++){
+	             rotate(component);
+	             }
+	             //   component=null; //On oublie la component
+	            	}
+					else{
+						JOptionPane.showMessageDialog(null,"La pi�ce n'a pas �t� plac� sur le plateau !!");
+			    		
+					}
+	               setDeposer(false);
 	            }
 	            else { // Si il n'y a pas de mouvement
 	            	
 	                component = getPiece(e.getX(),e.getY()); //On mÃ©morise la piÃ¨ce Ã  dÃ©placer avec la mÃ©thode getPiece
-	                setPieces_Name(component.getName());
-	                setRota();
+	               
 	                if ( component!=null ) { 
-	                	
+	                	 setPieces_Name(component.getName());
+	 	                setRota();
 	                    container.setComponentZOrder(component,0); //Place le composant le plus haut possible
 	                    relx = e.getX()-component.getX(); //On mÃ©morise la position relative
 	                    rely = e.getY()-component.getY(); //On mÃ©morise la position relative
@@ -200,11 +216,11 @@ public class Pieces extends JPanel{
 				 
 						  	rotate(component);//Alors on peut effectuer une rotation
 				
-				 //Pour nesrine, c'est pour la valeur de rotation
+				
 						  	Val_Rotation++; //On augmente la valeur du nombre de rotation
 						  	if(Val_Rotation==4)//Si on a effectuÃ© un tour complet
 						  		Val_Rotation=0;//On remet la valeur Ã  zÃ©ro
-				
+						  		
 					  }
 				  }
 				}
@@ -248,12 +264,18 @@ public class Pieces extends JPanel{
 			public String getPieces_Name() {
 				return Pieces_Name;
 			}
+			public boolean getDeposer(){
+				return deposer;
+			}
 
 			//Remettre la rotation a 0
 			public void setRota() {
 				Val_Rotation=0;
 			}
-
+			public void setDeposer(boolean deposeer) {
+				deposer = deposeer;
+			}
+			
 			//Setter pour le nom de la piece
 			public void setPieces_Name(String pieces_Name) {
 				Pieces_Name = pieces_Name;
@@ -280,7 +302,7 @@ public String[] run() {
 	String tab[];
 	tab=new String[32];
 	int i=0;
- String comp=null;
+
 	try {
  
 		br = new BufferedReader(new FileReader(csvFile));

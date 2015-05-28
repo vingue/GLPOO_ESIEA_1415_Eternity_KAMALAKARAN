@@ -1,18 +1,16 @@
 package fr.esiea.glpoo;
 
-import java.awt.Dimension;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class Comparaison {
 
 	
 	
 	
-	public void compar() {
+	public String compar() {
 		Pieces piece = new Pieces();
 		String [] debut = piece.run();
+		String texte="";
 		
 		 Resultat resultat = new Resultat();
 		 String [] fin = resultat.run();
@@ -24,7 +22,7 @@ public class Comparaison {
 		 int id=0;
 		 int rot=0;
 		int comparaison=0;
-		
+		int nombre=0;
 		while(h<taille/2){
 		for(i=a;i<a+2;i++){
 	
@@ -66,29 +64,12 @@ public class Comparaison {
 		rot=0;
 		j=0;
 		a=a+2;
-		System.out.println(a);
+		
 	h++;}
-		JFrame frame;
-		frame=new JFrame("Résutat"); //Initialisation de notre fenetre
-        
-        
-		  
-        //Préparation de la fenetre
-        frame.setMinimumSize(new Dimension(640,480));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(piece);
-        String texte;
-        if(comparaison==taille/2){
-        	texte="vous avez gagné";
-        	
-        }
-        else{texte="vous avez perdu";}
-        JLabel label = new JLabel(texte);
-        
-       
-        frame.add(label);
-    
-	System.out.println(comparaison);
+		 
+		 if(comparaison==taille/2){ texte="C'est gagn�e";}
+		 else{ texte ="C'est perdu";}
+	return texte;
 	}
 	     
 }
